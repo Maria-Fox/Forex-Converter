@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ForEx Converter</title>
+    <link rel="stylesheet" href="/static/index.css" />
+  </head>
+  <body>
+    <h1 id="title">ForEx Converter</h1>
+
+    <!-- User Input / Output information  -->
+    {% if converted_amount%}
+    {{converted_amount}}
+    <h2 id="conversion-header">Conversion Breakdown:</h2>
+    <ul id="breakdown" >
+      <li> {{amount}} From: {{base}} To: {{symbols}}</li>
+      <li>
+        Conversion Rate: {{conversion_rate}}
+        <li id="total">Converted
+          Total: {{currency_symbol}}{{converted_amount}}</li> 
+      </li>
+    </ul>
+    {% endif%}
+
+
+    <!-- Flash Messages Section -->
+    {% with messages = get_flashed_messages() %} {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %} {% block body %}{% endblock %}
+
+    <!-- Form section -->
+    <div id="form-div">
+    <form
+      action="/https://theforexapi.com/api/latest/base=<base>/symbols=<symbols>HTTP/2"
+      id="input-form"
+    >
+      <label for="con-from">
+        Converting from:
+        <input type="text" name="con-from" id="con-from" placeholder="USD" required />
+      </label>
+      <label for="con-to">
+        Converting to:
+        <input type="text" name="con-to" id="con-to" placeholder="GBP" required/>
+      </label>
+      <label for="amount"
+        >Amount:
+        <input
+          type="text"
+          name="amount"
+          id="amount"
+          placeholder="50"
+          required
+        />
+      </label>
+      <button type="submit">Convert</button>
+    </form>
+
+    <div id="currency-codes">
+      <h3>Currency Codes</h3>
+      <p>EUR - Euro Member Countries |IDR - Indonesia Rupiah |BGN - Bulgaria Lev |ILS - Israel Shekel |GBP - United Kingdom Pound |DKK - Denmark Krone |CAD - Canada Dollar |JPY - Japan Yen |HUF - Hungary Forint |RON - Romania New Leu |MYR - Malaysia Ringgit |SEK - Sweden Krona |SGD - Singapore Dollar |HKD - Hong Kong Dollar |AUD - Australia Dollar |CHF - Switzerland Franc |KRW - Korea (South) Won |CNY - China Yuan Renminbi |TRY - Turkey Lira |HRK - Croatia Kuna |NZD - New Zealand Dollar |THB - Thailand Baht |USD - United States Dollar |NOK - Norway Krone |RUB - Russia Ruble |INR - India Rupee |MXN - Mexico Peso |CZK - Czech Republic Koruna |BRL - Brazil Real |PLN - Poland Zloty |PHP - Philippines Peso |ZAR - South Africa Rand</p>
+    </div>
+  </div>
+  </body>
+</html>
